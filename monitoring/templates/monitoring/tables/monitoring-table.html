@@ -1,0 +1,112 @@
+{% if recs %}
+<div style="overflow: auto;">
+    <table class="table table-striped rounded p-0" style="font-size: 13px;">
+        <thead>
+        <tr>
+            <th scope="col">No.</th>
+            <th scope="col">ID</th>
+            <th scope="col">Created at</th>
+            <th scope="col">IAR No.</th>
+            <th scope="col">IAR Date</th>
+            <th scope="col">Supplier</th>
+            <th scope="col">Particulars</th>
+            <th scope="col">Amount</th>
+            <th scope="col">Date Received in COA</th>
+            <th scope="col">Delay Duration (Days)</th>
+            <th scope="col">Date Encoded</th>
+            <th scope="col">Remarks</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for rec in recs %}
+            <tr class="align-middle">
+            <td>
+                {{forloop.counter }}.
+            </td>
+            <td>
+                #{{ rec.id |stringformat:"04d"}}
+            </td>
+            <td>
+                {{rec.created_at|date:"Y-m-d"}}
+                <br>
+                <div class="text-secondary" style="font-size: 12px;">
+                {{rec.created_at|date:"h:m a"}}
+                </div>
+            </td>
+                <td>{{rec.iar_number}}</td>
+                <td>{{rec.iar_date}}</td>
+                <td>
+                <div class="btn align-start p-0" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title='{{rec.description}}' style="font-size: 13px;">
+                    {{rec.supplier|truncatechars:44}}
+                </div>
+                </td>
+                <td>
+                    {{rec.particulars|truncatechars:20}}
+                </td>
+                <td>{{rec.amount}}</td>
+                <td>{{rec.date_received_in_coa}}</td>
+                <td>{{rec.delay_duration_in_days}} <div class="text-secondary" style="font-size: 12px;">{{rec.time_received}}</div></td>
+                <td>
+                    {{rec.date_encoded}}
+                </td>
+                <td>
+
+                <div class="btn-group">
+                    <button type="button" class="btn border border-primary text-primary px-2 py-1 badge rounded-pill dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    Options
+                    </button>
+                    <ul class="dropdown-menu border border-primary " style="--bs-bg-opacity: .5;">
+                    <li>
+                        <a class="dropdown-item text-primary" href="/rec-inventory/update-recument/{{rec.id}}/edit/">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                            <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+                        </svg>
+                        Update
+                        </a>
+                    </li>
+                    <li>
+                        
+                    </li>
+                    </ul>
+                </div>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+ 
+{% if page_obj.number %}
+<nav aria-label="Page navigation example">
+
+  <ul class="pagination">
+    <li class="page-item disabled">
+      <a href="" class="page-link text-black">
+        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+      </a>
+    </li>
+    {% if page_obj.has_previous %}
+    <li class="page-item"><a class="page-link" href="?page=1">First</a></li>
+    <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previews</a></li>
+    {% endif %}
+
+    {% if page_obj.has_next %}
+    <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a></li>
+    <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Last</a></li>
+    {% endif %}
+  </ul>
+</nav>
+{% endif %}
+  {% else %}
+  <p class="text-center pt-2">No Records Founds</p>
+
+  {% endif %}
+  <script>
+    // Initialize Bootstrap popovers
+    var popoverTriggerList = [].slice.call(recument.querySelectorAll('[data-bs-toggle="popover"]'));
+    var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+      return new bootstrap.Popover(popoverTriggerEl);
+    });
+  </script>

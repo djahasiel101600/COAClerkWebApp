@@ -1,0 +1,59 @@
+{% extends 'base/base.html' %}
+{% load humanize %}
+{% load static %}
+{% block content %}
+<style>
+  #scrollTable {
+    overflow-y: scroll;
+    height: 90vh;
+  }
+</style>
+<div class="container rounded text-start pt-3">
+    <div id="scrollTable">
+    <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Check No.</th>
+            <th scope="col">Date</th>
+            <th scope="col">Payee</th>
+            <th scope="col">Nature of Transaction</th>
+            <th scope="col">Gross Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for d in data %}
+          <tr>
+            <td>{{d.check_no}}</td>
+            <td>{{d.dte}}</td>
+            <td>{{d.payee}}</td>
+            <td
+            id="tooltip"
+            data-bs-toggle="tooltip" data-bs-placement="top"
+            data-bs-custom-class="custom-tooltip"
+            data-bs-title="{{d.nature_of_transaction}}">{{d.nature_of_transaction|truncatechars:30}}</td>
+            <td>{{d.grossAmount|intcomma}}</td>
+          </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+  </div>
+      <nav aria-label="Page navigation example">
+        <ul class="pagination">
+        {% if data.has_previous %}
+          <li class="page-item"><a class="page-link text-dark fw-medium" href="?page={{ data.previous_page_number }}">Previous</a></li>
+        {% endif %}
+          <li class="page-item"><a class="page-link text-dark fw-medium" href="?page=1">1</a></li>
+          <li class="page-item"><a class="page-link text-dark fw-medium" href="?page=2">2</a></li>
+          <li class="page-item"><a class="page-link text-dark fw-medium" href="?page=3">3</a></li>
+        {% if data.has_next %}
+          <li class="page-item"><a class="page-link text-dark fw-medium" href="?page={{ data.next_page_number }}">Next</a></li>
+        {% endif %}
+        </ul>
+      </nav>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+<script>
+    const exampleEl = document.getElementById('tooltip')
+    const tooltip = new bootstrap.Tooltip(exampleEl, options)
+</script>
+{% endblock %}

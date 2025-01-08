@@ -1,0 +1,12 @@
+.effect {
+    background-color: aquamarine;
+}
+
+#scrollTable {
+    height: 100px;
+    overflow-y: scroll;
+}
+
+#test {
+    color: aqua;
+}
