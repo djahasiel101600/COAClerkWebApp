@@ -24,3 +24,16 @@ def index(request):
         form = IARRecordsForm()
 
     return render(request, 'monitoring/index.html', {'form': form, 'recs': recs, 'page_obj':page_obj})
+
+def update_iarrecord(request, pk):
+    recs = IARRecords.objects.get(pk=pk)
+
+    if request.method == 'POST':
+        form = IARRecordsForm(request.POST, request.FILES, instance=recs)
+        if form.is_valid():
+            form.save()
+            return redirect('recsInventoryIndex')
+    else:
+        form = IARRecordsForm(instance=recs)
+
+    return render(request, 'monitoring/forms/update_IARRecords.html', {'form':form, 'recs': recs})
