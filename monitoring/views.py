@@ -32,7 +32,7 @@ def update_iarrecord(request, pk):
         form = IARRecordsForm(request.POST, request.FILES, instance=recs)
         if form.is_valid():
             form.save()
-            return redirect('recsInventoryIndex')
+            return redirect('MonitoringIndex')
     else:
         form = IARRecordsForm(instance=recs)
 
