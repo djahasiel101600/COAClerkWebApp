@@ -190,8 +190,9 @@ def postdataendpoint(request, fund):
         else:
             return HttpResponse("app_model contains more than one record")
 
-        print(app_model)
-        print(f"{request.POST}")
+        # print(app_model)
+        # print(f"{request.POST}")
+        print("Data Received Successfully")
 
         return HttpResponse(f"Success")
     return HttpResponse("Request Method not Post")
@@ -208,7 +209,8 @@ def listView(request):
             combined_queryset = combined_queryset.union(queryset)
 
     if combined_queryset:
-        combined_queryset.order_by('dte')
+        combined_queryset.order_by('dte').values()
+        combined_queryset.reverse()
         paginator = Paginator(combined_queryset, 25)
         page_number = request.GET.get("page")
         page_obj = paginator.get_page(page_number)

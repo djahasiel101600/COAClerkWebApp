@@ -41,7 +41,8 @@ class DocumentForm(forms.ModelForm):
         ('Report of Disbursement', 'Report of Disbursement'),
         ('Report of Debit Account','Report of Debit Account'),
         ('Report of Accountability for Accountable Form', 'Report of Accountability for Accountable Form'),
-        ('Monthly Equipment Report', 'Monthly Equipment Report')
+        ('Monthly Equipment Report', 'Monthly Equipment Report'),
+        ('Financial Reports', 'Financial Reports')
     ]
 
     fund = forms.ChoiceField(choices=FUND_CHOICES, label='Related Fund')
